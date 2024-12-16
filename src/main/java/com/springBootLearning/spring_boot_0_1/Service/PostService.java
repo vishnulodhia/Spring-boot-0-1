@@ -1,4 +1,4 @@
-package com.springBootLearning.spring_boot_0_1.service;
+package com.springBootLearning.spring_boot_0_1.Service;
 
 import com.springBootLearning.spring_boot_0_1.Dto.PostDTO;
 
