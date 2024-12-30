@@ -23,7 +23,7 @@ public class JwtService {
     return Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
-    public String generate(User user){
+    public String generateToken(User user){
        return  Jwts.builder()
                 .setSubject(user.getUserId().toString())
                 .claim("email",user.getEmail())
