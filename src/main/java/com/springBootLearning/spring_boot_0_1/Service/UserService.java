@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
-public class UserService implements  UserDetailsService{
+public class UserService implements UserDetailsService{
 
 
     private final UserRepository userRepository;
@@ -38,16 +38,24 @@ public class UserService implements  UserDetailsService{
     }
 
     public UserDto signUp(SignUpDto signUpDto){
-        Optional<User> user = userRepository.findByEmail(signUpDto.getEmail());
+       try{
+           Optional<User> user = userRepository.findByEmail(signUpDto.getEmail());
 
-        if(user.isPresent())
-            throw new BadCredentialsException("User with email already exits"+ signUpDto.getEmail());
+           if(user.isPresent())
+               throw new BadCredentialsException("User with email already exits"+ signUpDto.getEmail());
 
 
-       User toBeCreated = mapper.map(signUpDto,User.class);
-       toBeCreated.setPassword(passwordEncoder.encode(toBeCreated.getPassword()));
+           User toBeCreated = mapper.map(signUpDto,User.class);
+           toBeCreated.setPassword(passwordEncoder.encode(toBeCreated.getPassword()));
 
-        return mapper.map(toBeCreated,UserDto.class);
+
+           return mapper.map(userRepository.save(toBeCreated),UserDto.class);
+
+       }
+       catch (Exception e){
+           e.printStackTrace();;
+           throw e;
+       }
     }
 
 
