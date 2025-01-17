@@ -37,6 +37,15 @@ public class UserService implements UserDetailsService{
                 .orElseThrow(()-> new BadCredentialsException("User not found"));
     }
 
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email)
+                .orElse( null);
+    }
+
+    public User createUser(User user){
+        return userRepository.save(user);
+    }
+
     public UserDto signUp(SignUpDto signUpDto){
        try{
            Optional<User> user = userRepository.findByEmail(signUpDto.getEmail());
