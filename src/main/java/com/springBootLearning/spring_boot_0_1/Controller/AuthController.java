@@ -47,5 +47,17 @@ public class AuthController {
     return ResponseEntity.ok(authService.refreshToken(refreshToken));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request){
+
+        String refreshToken = Arrays.stream(request.getCookies()).filter(cookie -> "refreshToken".equals(cookie.getName())).
+                findFirst().
+                map(Cookie::getValue).
+                orElseThrow(()->new AuthenticationServiceException("Refresh token not found"));
+        authService.logout(refreshToken);
+
+        return ResponseEntity.ok("User session deleted");
+    }
+
 
 }

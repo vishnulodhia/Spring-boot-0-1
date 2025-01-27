@@ -4,6 +4,7 @@ import com.springBootLearning.spring_boot_0_1.Dto.LoginRequest;
 import com.springBootLearning.spring_boot_0_1.Dto.SignUpDto;
 import com.springBootLearning.spring_boot_0_1.Dto.UserDto;
 import com.springBootLearning.spring_boot_0_1.Exception.ResourceNotFoundException;
+import com.springBootLearning.spring_boot_0_1.Model.Role;
 import com.springBootLearning.spring_boot_0_1.Model.User;
 import com.springBootLearning.spring_boot_0_1.Repository.UserRepository;
 import com.springBootLearning.spring_boot_0_1.Security.JwtService;
@@ -20,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService{

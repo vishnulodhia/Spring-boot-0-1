@@ -21,6 +21,8 @@ public class AuthService {
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final SessionService sessionService;
+
 
     public LoginResponseDto login(LoginRequest loginRequest){
         try{
@@ -33,6 +35,8 @@ public class AuthService {
 
             String accessToken = jwtService.generateAccessToken(user);
             String refreshToken = jwtService.generateRefersToken(user);
+            sessionService.generateNewSession(user,refreshToken);
+
 
             System.out.println("accessToken: "+accessToken);
             System.out.println("refreshToken: "+refreshToken);
@@ -46,6 +50,7 @@ public class AuthService {
 
     public LoginResponseDto refreshToken(String refreshToken){
        Long userId = jwtService.getUserIdFromToken(refreshToken);
+       sessionService.validateSession(refreshToken);
        User user = userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user not found"));
        String accessToken = jwtService.generateRefersToken(user);
 
@@ -53,4 +58,8 @@ public class AuthService {
     }
 
 
+    public void logout(String refreshToken) {
+        User user = userRepository.findById(jwtService.getUserIdFromToken(refreshToken)).orElseThrow(()->new ResourceNotFoundException("User not found"));
+        sessionService.logout(user);
+    }
 }

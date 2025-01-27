@@ -1,10 +1,13 @@
 package com.springBootLearning.spring_boot_0_1.Service;
 
 import com.springBootLearning.spring_boot_0_1.Dto.PostDTO;
+import com.springBootLearning.spring_boot_0_1.Exception.ResourceNotFoundException;
 import com.springBootLearning.spring_boot_0_1.Model.PostEntity;
+import com.springBootLearning.spring_boot_0_1.Model.User;
 import com.springBootLearning.spring_boot_0_1.Repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,5 +29,13 @@ public class PostServiceImpl implements PostService {
     public PostDTO createNewPost(PostDTO inputPost) {
         PostEntity postEntity = modelMapper.map(inputPost,PostEntity.class);
         return modelMapper.map(postRepository.save(postEntity),PostDTO.class);
+    }
+
+    @Override
+    public PostDTO getPostById(Long postId) {
+        User user  =(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PostEntity postEntity = postRepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("post not found with Id"));
+       postEntity.setUse(user);
+        return modelMapper.map(postEntity,PostDTO.class);
     }
 }

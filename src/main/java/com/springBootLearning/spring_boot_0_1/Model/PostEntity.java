@@ -2,8 +2,7 @@ package com.springBootLearning.spring_boot_0_1.Model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -16,6 +15,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "posts")
+@Getter
+@Setter
+@Builder
 public class PostEntity extends AuditableEntity{
 
     @Id
@@ -23,6 +25,9 @@ public class PostEntity extends AuditableEntity{
     private Long postId;
     private String title;
     private String description;
+
+    @ManyToOne
+    private User use;
 
 
 }
