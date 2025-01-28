@@ -1,4 +1,4 @@
-package com.springBootLearning.spring_boot_0_1.Advices;
+package com.springBootLearning.spring_boot_0_1;
 
 
 import org.springframework.core.MethodParameter;
@@ -14,13 +14,12 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+        System.out.println("please restart the server");
         return false;
     }
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-
-
         return null;
     }
 }
