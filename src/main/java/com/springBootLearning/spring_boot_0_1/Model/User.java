@@ -23,11 +23,17 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
+
     @Column(unique = true)
     private String email;
+
     private String password;
     //    role can be authority in spring security
     private String name;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "subscription_id")
+    private Subscription subscription;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

@@ -20,7 +20,7 @@ public class SessionService {
     public void generateNewSession(User user,String refreshToken){
         List<Session> userSession = sessionRepository.findByUser(user);
 
-        if(userSession.size()>=SESSION_LIMIT){
+        if(userSession.size()>= user.getSubscription().getSessionLimit()){
             userSession.sort(Comparator.comparing(Session::getLastUsedAt));
             Session leastRecentlyUseSession = userSession.get(0);
             sessionRepository.delete(leastRecentlyUseSession);
